@@ -1,0 +1,6 @@
+@dotnetCancellationToken_HostAddress = http://localhost:5058
+
+GET {{dotnetCancellationToken_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

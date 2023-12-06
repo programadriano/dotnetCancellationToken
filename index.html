@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POST Request</title>
+    <style>
+        /* Estilos CSS simples para melhorar a aparência da página */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            margin-bottom: 10px;
+            width: 300px;
+            padding: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enviar POST para API</h1>
+    <form id="postForm">
+        <label for="code">Código:</label>
+        <input type="text" id="code" name="code" placeholder="AAPL" value="AAPL"><br>
+        <label for="companyName">Nome da Empresa:</label>
+        <input type="text" id="companyName" name="companyName" placeholder="Apple Inc" value="Apple Inc"><br>
+        <label for="amount">Valor:</label>
+        <input type="text" id="amount" name="amount" placeholder="1500.00" value="1500.00"><br>
+        <label for="quantity">Quantidade:</label>
+        <input type="text" id="quantity" name="quantity" placeholder="100" value="100"><br>
+        <label for="date">Data:</label>
+        <input type="text" id="date" name="date" placeholder="2023-11-01" value="2023-11-01"><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('postForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const data = {
+                ticker: {
+                    code: document.getElementById('code').value,
+                    companyName: document.getElementById('companyName').value
+                },
+                amount: parseFloat(document.getElementById('amount').value),
+                quantity: parseInt(document.getElementById('quantity').value),
+                date: document.getElementById('date').value
+            };
+
+            fetch('http://localhost:5058/api/Transactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'text/plain'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ocorreu um erro ao enviar a requisição.');
+                }
+                return response.text();
+            })
+            .then(data => {
+               // alert('Requisição enviada com sucesso!');
+                console.log(data);
+            })
+            .catch(error => {
+                alert('Erro ao enviar a requisição.');
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
